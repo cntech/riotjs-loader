@@ -26,6 +26,12 @@ module.exports = function (source) {
     }
   });
 
+  var ts = require('typescript');
+  options.parser = function(content, options) {
+    var result = ts.transpile(content, options);
+    return result;
+  };
+
   try {
     return riot.compile(content, options);
   } catch (e) {
