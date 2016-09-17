@@ -29,6 +29,7 @@
   "dependencies": {
     "loader-utils": "^0.2.6",
     "riot-compiler": "^2.3.22",
+    "temp": "^0.8.3",
     "typescript": "^2.1.0-dev.20160916"
   },
   "peerDependencies": {
