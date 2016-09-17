@@ -45,6 +45,9 @@ module.exports = function (source) {
     var jsFileName = tempFilePathWithoutExtension + '.js';
     var program = ts.createProgram([tempFile.path], typescriptCompilerOptions);
     var result = program.emit();
+    var resultContent = fs.readFileSync(jsFileName, { encoding: 'utf8' });
+    fs.unlinkSync(jsFileName);
+    temp.cleanupSync();
     var syntacticDiagnostics = program.getSyntacticDiagnostics();
     if(syntacticDiagnostics.length) {
       throw new Error('Typescript Syntax Error(s): ' + syntacticDiagnostics.map(e => e.messageText));
@@ -53,9 +56,6 @@ module.exports = function (source) {
     if(semanticDiagnostics.length) {
       throw new Error('Typescript Semantic Error(s): ' + semanticDiagnostics.map(e => e.messageText));
     }
-    var resultContent = fs.readFileSync(jsFileName, { encoding: 'utf8' });
-    fs.unlinkSync(jsFileName);
-    temp.cleanupSync();
     return resultContent;
   };
 
