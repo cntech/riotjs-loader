@@ -31,6 +31,7 @@ module.exports = function (source) {
   });
 
   var me = this;
+  var typescriptCompilerOptions = JSON.parse(options.typescript || '{}');
   options.parser = function(content, options) {
     var tempFile = temp.openSync({
       dir: me.context,
@@ -42,7 +43,7 @@ module.exports = function (source) {
     var extname = path.extname(tempFilePath);
     var tempFilePathWithoutExtension = tempFilePath.slice(0, -extname.length);
     var jsFileName = tempFilePathWithoutExtension + '.js';
-    var program = ts.createProgram([tempFile.path], options);
+    var program = ts.createProgram([tempFile.path], typescriptCompilerOptions);
     var result = program.emit();
     var syntacticDiagnostics = program.getSyntacticDiagnostics();
     if(syntacticDiagnostics.length) {
